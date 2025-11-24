@@ -1,0 +1,26 @@
+# 注释以 # 开头
+
+# 忽略所有 .log 文件
+*.log
+
+# 忽略特定文件
+debug.log
+
+# 忽略整个目录
+node_modules/
+build/
+dist/
+.env
+
+# 忽略特定扩展名
+*.tmp
+*.temp
+
+# 不忽略某个特定文件（例外规则）
+!important.log
+
+# 忽略目录中的特定文件
+src/*.min.js
+
+# 忽略所有子目录中的特定文件
+**/__pycache__/
