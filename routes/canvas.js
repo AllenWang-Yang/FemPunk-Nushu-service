@@ -12,6 +12,17 @@ const canvasContract = new ethers.Contract(process.env.CANVAS_CONTRACT_ADDRESS, 
 const canvasRevenue = new ethers.Contract(process.env.REVENUE_CONTRACT_ADDRESS, revenueAbi, wallet);
 const canvasContribution = new ethers.Contract(process.env.CONTRIBUITION_CONTRACT_ADDRESS, contributionsAbi, wallet);
 
+// get all canvas 
+router.get("/",async (req,res) => {
+  try {
+    const result = await pool.query("SELECT * FROM canvases WHERE is_deleted=0");
+    res.json({ success: true, canvas: result.rows[0] || null });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
 // get canvas by day_timestamp
 router.get("/:day_timestamp", async (req, res) => {
   const { day_timestamp } = req.params;
@@ -56,7 +67,7 @@ router.post("/create", async (req, res) => {
   }
 });
 
-// mint ERC1155 NFT for a canvas
+// mint ERC1155 NFT for a canvas (admin only - initial minting)
 router.post("/mint", async (req, res) => {
   // step1: update metadata_uri in database
     const { canvas_id } = req.body;
@@ -89,6 +100,53 @@ router.post("/mint", async (req, res) => {
         res.status(500).json({ success: false, error: err.message });
     }
     
+});
+
+// user buy canvas NFT (record purchase in database)
+// Note: User should call contract directly from frontend to purchase
+// This endpoint is for recording the purchase after blockchain confirmation
+router.post("/purchase", async (req, res) => {
+    const { canvas_id, buyer_address, tx_hash, amount_wei } = req.body;
+    
+    try {
+        // step1: verify canvas exists
+        const canvas = await pool.query(
+            "SELECT * FROM canvases WHERE canvas_id=$1 AND is_deleted=0",
+            [canvas_id]
+        );
+        
+        if (canvas.rows.length === 0) {
+            return res.status(404).json({ success: false, error: "Canvas not found" });
+        }
+
+        // step2: verify transaction on blockchain (optional but recommended)
+        // You can verify the tx_hash is valid and matches the purchase
+
+        // step3: update total_raised_wei in database
+        const currentTotal = BigInt(canvas.rows[0].total_raised_wei || 0);
+        const newTotal = currentTotal + BigInt(amount_wei);
+        
+        await pool.query(
+            "UPDATE canvases SET total_raised_wei=$1, updated_ts=extract(epoch from now())*1000 WHERE canvas_id=$2",
+            [newTotal.toString(), canvas_id]
+        );
+
+        // step4: optionally record purchase history
+        // await pool.query(
+        //     "INSERT INTO purchases(canvas_id, buyer_address, amount_wei, tx_hash, created_ts) VALUES ($1,$2,$3,$4,extract(epoch from now())*1000)",
+        //     [canvas_id, buyer_address, amount_wei, tx_hash]
+        // );
+
+        res.json({ 
+            success: true,
+            canvas_id: canvas_id,
+            total_raised_wei: newTotal.toString(),
+            tx_hash: tx_hash
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ success: false, error: err.message });
+    }
 });
 
 // mint + contribution + finalize in one step

@@ -83,8 +83,51 @@ router.get("/:canvas_id", async (req, res) => {
         console.error(err);
         res.status(500).json({ success: false, error: err.message });
     }
+});
 
+// calculate total sales amount when minting canvas
+router.post("/calculateSales", async (req, res) => {
+    const { canvas_id, supply, price_wei } = req.body;
+    try {
+        // calculate total sales
+        const totalSales = BigInt(supply) * BigInt(price_wei);
+        
+        // update canvas total_raised_wei
+        await pool.query(
+            "UPDATE canvases SET total_raised_wei=$1, updated_ts=extract(epoch from now())*1000 WHERE canvas_id=$2",
+            [totalSales.toString(), canvas_id]
+        );
 
+        res.json({ 
+            success: true, 
+            total_sales_wei: totalSales.toString(),
+            supply: supply,
+            price_wei: price_wei
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ success: false, error: err.message });
+    }
+});
+
+// get canvases that a contributor has contributed to
+router.get("/contributor/:address", async (req, res) => {
+    const { address } = req.params;
+    try {
+        const result = await pool.query(
+            `SELECT DISTINCT c.canvas_id, c.day_timestamp, c.metadata_uri, c.total_raised_wei, 
+             c.finalized, co.contributions, co.created_ts
+             FROM canvases c
+             INNER JOIN contributions co ON c.canvas_id = co.canvas_id
+             WHERE co.contributor=$1 AND c.is_deleted=0 AND co.is_deleted=0
+             ORDER BY c.day_timestamp DESC`,
+            [address]
+        );
+        res.json({ success: true, canvases: result.rows });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ success: false, error: err.message });
+    }
 });
 
 module.exports = router;

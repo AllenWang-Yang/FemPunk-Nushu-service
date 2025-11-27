@@ -17,23 +17,35 @@ router.get("/", async (req, res) => {
   }
 });
 
-// users buy colors
-router.post("/buy", async (req, res) => {
-  const { address, color_id } = req.body;
+// record color purchase (user should call contract directly from frontend)
+// This endpoint is for recording the purchase after blockchain confirmation
+router.post("/recordPurchase", async (req, res) => {
+  const { color_id, buyer_address, tx_hash, price_wei } = req.body;
+  
   try {
+    // step1: verify color exists
     const color = await pool.query("SELECT * FROM colors WHERE color_id=$1", [color_id]);
-    if (color.rows.length === 0) return res.status(404).json({ success: false, error: "Color not found" });
+    if (color.rows.length === 0) {
+      return res.status(404).json({ success: false, error: "Color not found" });
+    }
 
-    const metadataURI = color.rows[0].metadata_uri;
-    // step1: update db
-    await pool.query("UPDATE colors SET owner_address=$1,updated_ts=extract(epoch from now())*1000 WHERE color_id=$2", [address, color_id]);
-    // step2: call contract
-    const tx = await colorsContract.buyCodlor(color_id, { value: metadataURI });
-    await tx.wait();
-    // step3: update db with tx hash
-    await pool.query("UPDATE colors SET owner_address=$1, updated_ts=extract(epoch from now())*1000 WHERE color_id=$2", [address, color_id]);
+    // step2: check if color is already owned
+    if (color.rows[0].owner_address && color.rows[0].owner_address !== '') {
+      return res.status(400).json({ success: false, error: "Color already owned" });
+    }
 
-    res.json({ success: true, txHash: tx.hash });
+    // step3: update database with owner and transaction info
+    await pool.query(
+      "UPDATE colors SET owner_address=$1, price_wei=$2, tx_hash=$3, updated_ts=extract(epoch from now())*1000 WHERE color_id=$4",
+      [buyer_address, price_wei, tx_hash, color_id]
+    );
+
+    res.json({ 
+      success: true,
+      color_id: color_id,
+      owner_address: buyer_address,
+      tx_hash: tx_hash
+    });
   } catch (err) {
     console.error(err);
     res.status(500).json({ success: false, error: err.message });
