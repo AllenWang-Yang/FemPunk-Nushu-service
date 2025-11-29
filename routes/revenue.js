@@ -6,12 +6,31 @@ const { wallet } = require("../utils/wallet");
 const revenueAbi = require("../abi/FemCanvasRevenue.json");
 const revenueContract = new ethers.Contract(process.env.REVENUE_CONTRACT_ADDRESS, revenueAbi, wallet);
 
-// get revenue shares for a user
+// get revenue shares for a user on a specific canvas
 router.post("/getCanvasRevenue", async (req, res) => {
-  const { contributor, cavans_id } = req.params;
+  const { contributor, canvas_id } = req.body;
   try {
-    const result = await pool.query("SELECT * FROM revenue_shares WHERE contributor=$1 AND canvas_id=$2 AND is_deleted=0", [contributor, cavans_id]);
+    const result = await pool.query("SELECT * FROM revenue_shares WHERE contributor=$1 AND canvas_id=$2 AND is_deleted=0", [contributor, canvas_id]);
     res.json({ success: true, revenue: result.rows });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// get all revenue shares for a user (all canvases)
+router.get("/user/:address", async (req, res) => {
+  const { address } = req.params;
+  try {
+    const result = await pool.query(
+      `SELECT rs.*, c.day_timestamp, c.metadata_uri, c.finalized
+       FROM revenue_shares rs
+       INNER JOIN canvases c ON rs.canvas_id = c.canvas_id
+       WHERE rs.contributor=$1 AND rs.is_deleted=0
+       ORDER BY rs.created_ts DESC`,
+      [address]
+    );
+    res.json({ success: true, revenues: result.rows });
   } catch (err) {
     console.error(err);
     res.status(500).json({ success: false, error: err.message });

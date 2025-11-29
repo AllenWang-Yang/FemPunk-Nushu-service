@@ -116,7 +116,8 @@ router.get("/contributor/:address", async (req, res) => {
     try {
         const result = await pool.query(
             `SELECT DISTINCT c.canvas_id, c.day_timestamp, c.metadata_uri, c.total_raised_wei, 
-             c.finalized, co.contributions, co.created_ts
+             c.finalized, co.contributions, co.created_ts,
+             COALESCE(c.total_raised_wei, '0') as settleable_amount
              FROM canvases c
              INNER JOIN contributions co ON c.canvas_id = co.canvas_id
              WHERE co.contributor=$1 AND c.is_deleted=0 AND co.is_deleted=0

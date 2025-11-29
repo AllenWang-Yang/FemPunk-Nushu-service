@@ -1,35 +1,14 @@
 [
     {
-      "inputs": [],
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "initialURI",
+          "type": "string"
+        }
+      ],
       "stateMutability": "nonpayable",
       "type": "constructor"
-    },
-    {
-      "inputs": [],
-      "name": "ECDSAInvalidSignature",
-      "type": "error"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "length",
-          "type": "uint256"
-        }
-      ],
-      "name": "ECDSAInvalidSignatureLength",
-      "type": "error"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "bytes32",
-          "name": "s",
-          "type": "bytes32"
-        }
-      ],
-      "name": "ECDSAInvalidSignatureS",
-      "type": "error"
     },
     {
       "inputs": [
@@ -40,24 +19,13 @@
         },
         {
           "internalType": "uint256",
-          "name": "tokenId",
+          "name": "balance",
           "type": "uint256"
         },
         {
-          "internalType": "address",
-          "name": "owner",
-          "type": "address"
-        }
-      ],
-      "name": "ERC721IncorrectOwner",
-      "type": "error"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "operator",
-          "type": "address"
+          "internalType": "uint256",
+          "name": "needed",
+          "type": "uint256"
         },
         {
           "internalType": "uint256",
@@ -65,7 +33,7 @@
           "type": "uint256"
         }
       ],
-      "name": "ERC721InsufficientApproval",
+      "name": "ERC1155InsufficientBalance",
       "type": "error"
     },
     {
@@ -76,7 +44,23 @@
           "type": "address"
         }
       ],
-      "name": "ERC721InvalidApprover",
+      "name": "ERC1155InvalidApprover",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "idsLength",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "valuesLength",
+          "type": "uint256"
+        }
+      ],
+      "name": "ERC1155InvalidArrayLength",
       "type": "error"
     },
     {
@@ -87,18 +71,7 @@
           "type": "address"
         }
       ],
-      "name": "ERC721InvalidOperator",
-      "type": "error"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "owner",
-          "type": "address"
-        }
-      ],
-      "name": "ERC721InvalidOwner",
+      "name": "ERC1155InvalidOperator",
       "type": "error"
     },
     {
@@ -109,7 +82,7 @@
           "type": "address"
         }
       ],
-      "name": "ERC721InvalidReceiver",
+      "name": "ERC1155InvalidReceiver",
       "type": "error"
     },
     {
@@ -120,23 +93,23 @@
           "type": "address"
         }
       ],
-      "name": "ERC721InvalidSender",
+      "name": "ERC1155InvalidSender",
       "type": "error"
     },
     {
       "inputs": [
         {
-          "internalType": "uint256",
-          "name": "tokenId",
-          "type": "uint256"
+          "internalType": "address",
+          "name": "operator",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "owner",
+          "type": "address"
         }
       ],
-      "name": "ERC721NonexistentToken",
-      "type": "error"
-    },
-    {
-      "inputs": [],
-      "name": "InvalidShortString",
+      "name": "ERC1155MissingApprovalForAll",
       "type": "error"
     },
     {
@@ -162,14 +135,8 @@
       "type": "error"
     },
     {
-      "inputs": [
-        {
-          "internalType": "string",
-          "name": "str",
-          "type": "string"
-        }
-      ],
-      "name": "StringTooLong",
+      "inputs": [],
+      "name": "ReentrancyGuardReentrantCall",
       "type": "error"
     },
     {
@@ -178,32 +145,7 @@
         {
           "indexed": true,
           "internalType": "address",
-          "name": "owner",
-          "type": "address"
-        },
-        {
-          "indexed": true,
-          "internalType": "address",
-          "name": "approved",
-          "type": "address"
-        },
-        {
-          "indexed": true,
-          "internalType": "uint256",
-          "name": "tokenId",
-          "type": "uint256"
-        }
-      ],
-      "name": "Approval",
-      "type": "event"
-    },
-    {
-      "anonymous": false,
-      "inputs": [
-        {
-          "indexed": true,
-          "internalType": "address",
-          "name": "owner",
+          "name": "account",
           "type": "address"
         },
         {
@@ -226,19 +168,19 @@
       "anonymous": false,
       "inputs": [
         {
-          "indexed": false,
+          "indexed": true,
           "internalType": "uint256",
-          "name": "_fromTokenId",
+          "name": "canvasId",
           "type": "uint256"
         },
         {
           "indexed": false,
           "internalType": "uint256",
-          "name": "_toTokenId",
+          "name": "dayTimestamp",
           "type": "uint256"
         }
       ],
-      "name": "BatchMetadataUpdate",
+      "name": "CanavasFinalized",
       "type": "event"
     },
     {
@@ -246,74 +188,55 @@
       "inputs": [
         {
           "indexed": true,
-          "internalType": "address",
-          "name": "user",
-          "type": "address"
+          "internalType": "uint256",
+          "name": "canvasId",
+          "type": "uint256"
         },
         {
-          "indexed": false,
+          "indexed": true,
           "internalType": "uint256",
-          "name": "tokenId",
+          "name": "dayTimestamp",
           "type": "uint256"
         },
         {
           "indexed": false,
           "internalType": "string",
-          "name": "colorCode",
+          "name": "metadataURI",
+          "type": "string"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "creator",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "canvasCounter",
+          "type": "uint256"
+        }
+      ],
+      "name": "CanvasCreated",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "canvasId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "newURI",
           "type": "string"
         }
       ],
-      "name": "ColorMinted",
-      "type": "event"
-    },
-    {
-      "anonymous": false,
-      "inputs": [
-        {
-          "indexed": true,
-          "internalType": "address",
-          "name": "from",
-          "type": "address"
-        },
-        {
-          "indexed": true,
-          "internalType": "address",
-          "name": "to",
-          "type": "address"
-        },
-        {
-          "indexed": false,
-          "internalType": "uint256",
-          "name": "tokenId",
-          "type": "uint256"
-        },
-        {
-          "indexed": false,
-          "internalType": "uint256",
-          "name": "price",
-          "type": "uint256"
-        }
-      ],
-      "name": "ColorTransferred",
-      "type": "event"
-    },
-    {
-      "anonymous": false,
-      "inputs": [],
-      "name": "EIP712DomainChanged",
-      "type": "event"
-    },
-    {
-      "anonymous": false,
-      "inputs": [
-        {
-          "indexed": false,
-          "internalType": "uint256",
-          "name": "_tokenId",
-          "type": "uint256"
-        }
-      ],
-      "name": "MetadataUpdate",
+      "name": "CanvasURIUpdate",
       "type": "event"
     },
     {
@@ -341,6 +264,12 @@
         {
           "indexed": true,
           "internalType": "address",
+          "name": "operator",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
           "name": "from",
           "type": "address"
         },
@@ -351,39 +280,120 @@
           "type": "address"
         },
         {
-          "indexed": true,
-          "internalType": "uint256",
-          "name": "tokenId",
-          "type": "uint256"
+          "indexed": false,
+          "internalType": "uint256[]",
+          "name": "ids",
+          "type": "uint256[]"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256[]",
+          "name": "values",
+          "type": "uint256[]"
         }
       ],
-      "name": "Transfer",
+      "name": "TransferBatch",
       "type": "event"
     },
     {
+      "anonymous": false,
       "inputs": [
         {
+          "indexed": true,
+          "internalType": "address",
+          "name": "operator",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "from",
+          "type": "address"
+        },
+        {
+          "indexed": true,
           "internalType": "address",
           "name": "to",
           "type": "address"
         },
         {
+          "indexed": false,
           "internalType": "uint256",
-          "name": "tokenId",
+          "name": "id",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "value",
           "type": "uint256"
         }
       ],
-      "name": "approve",
-      "outputs": [],
-      "stateMutability": "nonpayable",
+      "name": "TransferSingle",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "value",
+          "type": "string"
+        },
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "id",
+          "type": "uint256"
+        }
+      ],
+      "name": "URI",
+      "type": "event"
+    },
+    {
+      "inputs": [],
+      "name": "PUBLIC_SUPPLY_LIMIT",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
       "type": "function"
     },
     {
       "inputs": [
         {
           "internalType": "address",
-          "name": "owner",
+          "name": "",
           "type": "address"
+        }
+      ],
+      "name": "authorizedMinters",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "account",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "id",
+          "type": "uint256"
         }
       ],
       "name": "balanceOf",
@@ -400,86 +410,17 @@
     {
       "inputs": [
         {
-          "internalType": "uint256",
-          "name": "colorId",
-          "type": "uint256"
+          "internalType": "address[]",
+          "name": "accounts",
+          "type": "address[]"
         },
         {
-          "internalType": "string",
-          "name": "metadataURI",
-          "type": "string"
+          "internalType": "uint256[]",
+          "name": "ids",
+          "type": "uint256[]"
         }
       ],
-      "name": "buyColor",
-      "outputs": [],
-      "stateMutability": "payable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "buyer",
-          "type": "address"
-        },
-        {
-          "internalType": "uint256",
-          "name": "colorId",
-          "type": "uint256"
-        },
-        {
-          "internalType": "string",
-          "name": "metadataURI",
-          "type": "string"
-        },
-        {
-          "internalType": "uint256",
-          "name": "deadline",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint8",
-          "name": "v",
-          "type": "uint8"
-        },
-        {
-          "internalType": "bytes32",
-          "name": "r",
-          "type": "bytes32"
-        },
-        {
-          "internalType": "bytes32",
-          "name": "s",
-          "type": "bytes32"
-        }
-      ],
-      "name": "buyColorWithSignature",
-      "outputs": [],
-      "stateMutability": "payable",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "colorsCounter",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "owner",
-          "type": "address"
-        }
-      ],
-      "name": "colorsOfUser",
+      "name": "balanceOfBatch",
       "outputs": [
         {
           "internalType": "uint256[]",
@@ -491,76 +432,21 @@
       "type": "function"
     },
     {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "canvasId",
+          "type": "uint256"
+        }
+      ],
+      "name": "buyCanvas",
+      "outputs": [],
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
       "inputs": [],
-      "name": "eip712Domain",
-      "outputs": [
-        {
-          "internalType": "bytes1",
-          "name": "fields",
-          "type": "bytes1"
-        },
-        {
-          "internalType": "string",
-          "name": "name",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "version",
-          "type": "string"
-        },
-        {
-          "internalType": "uint256",
-          "name": "chainId",
-          "type": "uint256"
-        },
-        {
-          "internalType": "address",
-          "name": "verifyingContract",
-          "type": "address"
-        },
-        {
-          "internalType": "bytes32",
-          "name": "salt",
-          "type": "bytes32"
-        },
-        {
-          "internalType": "uint256[]",
-          "name": "extensions",
-          "type": "uint256[]"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "tokenId",
-          "type": "uint256"
-        }
-      ],
-      "name": "getApproved",
-      "outputs": [
-        {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "colorId",
-          "type": "uint256"
-        }
-      ],
-      "name": "getPrice",
+      "name": "canvasCounter",
       "outputs": [
         {
           "internalType": "uint256",
@@ -574,8 +460,263 @@
     {
       "inputs": [
         {
+          "internalType": "uint256",
+          "name": "canvasId",
+          "type": "uint256"
+        }
+      ],
+      "name": "canvasExists",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "canvasPrice",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "canvases",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "canvasId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "dayTimestamp",
+          "type": "uint256"
+        },
+        {
+          "internalType": "string",
+          "name": "metadataURI",
+          "type": "string"
+        },
+        {
           "internalType": "address",
-          "name": "owner",
+          "name": "creator",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "totalRaised",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bool",
+          "name": "finalized",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "dayToCanvasId",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "canvasId",
+          "type": "uint256"
+        }
+      ],
+      "name": "finalized",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "canvasId",
+          "type": "uint256"
+        }
+      ],
+      "name": "getCanvas",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint256",
+              "name": "canvasId",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "dayTimestamp",
+              "type": "uint256"
+            },
+            {
+              "internalType": "string",
+              "name": "metadataURI",
+              "type": "string"
+            },
+            {
+              "internalType": "address",
+              "name": "creator",
+              "type": "address"
+            },
+            {
+              "internalType": "uint256",
+              "name": "totalRaised",
+              "type": "uint256"
+            },
+            {
+              "internalType": "bool",
+              "name": "finalized",
+              "type": "bool"
+            }
+          ],
+          "internalType": "struct IFemCanvas.Canvas",
+          "name": "",
+          "type": "tuple"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "dayTimestamp",
+          "type": "uint256"
+        }
+      ],
+      "name": "getCanvasIdByDay",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "canvasId",
+          "type": "uint256"
+        }
+      ],
+      "name": "getCanvasPurchaseInfo",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "price",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "minted",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "remaining",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bool",
+          "name": "userHasMinted",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getCurrentCanvasCounter",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "hasMinted",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "account",
           "type": "address"
         },
         {
@@ -596,35 +737,54 @@
       "type": "function"
     },
     {
-      "inputs": [],
-      "name": "name",
-      "outputs": [
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "canvasId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "dayTimestamp",
+          "type": "uint256"
+        },
         {
           "internalType": "string",
-          "name": "",
+          "name": "_metadataURI",
           "type": "string"
+        },
+        {
+          "internalType": "uint256",
+          "name": "supply",
+          "type": "uint256"
         }
       ],
-      "stateMutability": "view",
+      "name": "mintCanvas",
+      "outputs": [],
+      "stateMutability": "payable",
       "type": "function"
     },
     {
       "inputs": [
         {
           "internalType": "address",
-          "name": "",
+          "name": "to",
           "type": "address"
-        }
-      ],
-      "name": "nonces",
-      "outputs": [
+        },
         {
           "internalType": "uint256",
-          "name": "",
+          "name": "canvasId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "contributions",
           "type": "uint256"
         }
       ],
-      "stateMutability": "view",
+      "name": "mintToContributor",
+      "outputs": [],
+      "stateMutability": "nonpayable",
       "type": "function"
     },
     {
@@ -644,16 +804,16 @@
       "inputs": [
         {
           "internalType": "uint256",
-          "name": "tokenId",
+          "name": "",
           "type": "uint256"
         }
       ],
-      "name": "ownerOf",
+      "name": "publicMinted",
       "outputs": [
         {
-          "internalType": "address",
+          "internalType": "uint256",
           "name": "",
-          "type": "address"
+          "type": "uint256"
         }
       ],
       "stateMutability": "view",
@@ -667,24 +827,47 @@
       "type": "function"
     },
     {
+      "inputs": [],
+      "name": "revenueContract",
+      "outputs": [
+        {
+          "internalType": "contract IFemCanvasRevenue",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
       "inputs": [
+        {
+          "internalType": "address",
+          "name": "from",
+          "type": "address"
+        },
         {
           "internalType": "address",
           "name": "to",
           "type": "address"
         },
         {
-          "internalType": "uint256",
-          "name": "colorId",
-          "type": "uint256"
+          "internalType": "uint256[]",
+          "name": "ids",
+          "type": "uint256[]"
         },
         {
-          "internalType": "string",
-          "name": "metadataURI",
-          "type": "string"
+          "internalType": "uint256[]",
+          "name": "values",
+          "type": "uint256[]"
+        },
+        {
+          "internalType": "bytes",
+          "name": "data",
+          "type": "bytes"
         }
       ],
-      "name": "rewardColor",
+      "name": "safeBatchTransferFrom",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
@@ -703,30 +886,12 @@
         },
         {
           "internalType": "uint256",
-          "name": "tokenId",
+          "name": "id",
           "type": "uint256"
-        }
-      ],
-      "name": "safeTransferFrom",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "from",
-          "type": "address"
-        },
-        {
-          "internalType": "address",
-          "name": "to",
-          "type": "address"
         },
         {
           "internalType": "uint256",
-          "name": "tokenId",
+          "name": "value",
           "type": "uint256"
         },
         {
@@ -761,17 +926,17 @@
     {
       "inputs": [
         {
-          "internalType": "uint256",
-          "name": "colorId",
-          "type": "uint256"
+          "internalType": "address",
+          "name": "minter",
+          "type": "address"
         },
         {
-          "internalType": "uint256",
-          "name": "price",
-          "type": "uint256"
+          "internalType": "bool",
+          "name": "authorized",
+          "type": "bool"
         }
       ],
-      "name": "setPrice",
+      "name": "setAuthorizedMinter",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
@@ -780,16 +945,29 @@
       "inputs": [
         {
           "internalType": "uint256",
-          "name": "colorId",
+          "name": "canvasId",
           "type": "uint256"
         },
         {
-          "internalType": "string",
-          "name": "newURI",
-          "type": "string"
+          "internalType": "uint256",
+          "name": "price",
+          "type": "uint256"
         }
       ],
-      "name": "setURI",
+      "name": "setCanvasPrice",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_revenueContract",
+          "type": "address"
+        }
+      ],
+      "name": "setRevenueContract",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
@@ -814,79 +992,6 @@
       "type": "function"
     },
     {
-      "inputs": [],
-      "name": "symbol",
-      "outputs": [
-        {
-          "internalType": "string",
-          "name": "",
-          "type": "string"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "tokenId",
-          "type": "uint256"
-        }
-      ],
-      "name": "tokenURI",
-      "outputs": [
-        {
-          "internalType": "string",
-          "name": "",
-          "type": "string"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "to",
-          "type": "address"
-        },
-        {
-          "internalType": "uint256",
-          "name": "colorId",
-          "type": "uint256"
-        }
-      ],
-      "name": "transferColor",
-      "outputs": [],
-      "stateMutability": "payable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "from",
-          "type": "address"
-        },
-        {
-          "internalType": "address",
-          "name": "to",
-          "type": "address"
-        },
-        {
-          "internalType": "uint256",
-          "name": "tokenId",
-          "type": "uint256"
-        }
-      ],
-      "name": "transferFrom",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
       "inputs": [
         {
           "internalType": "address",
@@ -897,6 +1002,61 @@
       "name": "transferOwnership",
       "outputs": [],
       "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "canvasId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "string",
+          "name": "newURI",
+          "type": "string"
+        }
+      ],
+      "name": "updateCanvasURI",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "canvasId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "updateTotalRaised",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "tokenId",
+          "type": "uint256"
+        }
+      ],
+      "name": "uri",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "view",
       "type": "function"
     }
   ]
