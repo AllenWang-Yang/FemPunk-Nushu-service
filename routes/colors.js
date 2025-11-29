@@ -20,11 +20,11 @@ router.get("/", async (req, res) => {
 // record color purchase (user should call contract directly from frontend)
 // This endpoint is for recording the purchase after blockchain confirmation
 router.post("/recordPurchase", async (req, res) => {
-  const { color_id, buyer_address, tx_hash, price_wei } = req.body;
+  const { color_code, buyer_address, tx_hash, price_wei } = req.body;
   
   try {
-    // step1: verify color exists
-    const color = await pool.query("SELECT * FROM colors WHERE color_id=$1", [color_id]);
+    // step1: verify color exists by color_code
+    const color = await pool.query("SELECT * FROM colors WHERE color_code=$1 AND is_deleted=0", [color_code]);
     if (color.rows.length === 0) {
       return res.status(404).json({ success: false, error: "Color not found" });
     }
@@ -36,13 +36,14 @@ router.post("/recordPurchase", async (req, res) => {
 
     // step3: update database with owner and transaction info
     await pool.query(
-      "UPDATE colors SET owner_address=$1, price_wei=$2, tx_hash=$3, updated_ts=extract(epoch from now())*1000 WHERE color_id=$4",
-      [buyer_address, price_wei, tx_hash, color_id]
+      "UPDATE colors SET owner_address=$1, price_wei=$2, tx_hash=$3, updated_ts=extract(epoch from now())*1000 WHERE color_code=$4",
+      [buyer_address, price_wei, tx_hash, color_code]
     );
 
     res.json({ 
       success: true,
-      color_id: color_id,
+      color_id: color.rows[0].color_id,
+      color_code: color_code,
       owner_address: buyer_address,
       tx_hash: tx_hash
     });
