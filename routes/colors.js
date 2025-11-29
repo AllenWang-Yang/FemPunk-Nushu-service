@@ -20,11 +20,11 @@ router.get("/", async (req, res) => {
 // record color purchase (user should call contract directly from frontend)
 // This endpoint is for recording the purchase after blockchain confirmation
 router.post("/recordPurchase", async (req, res) => {
-  const { color_code, buyer_address, tx_hash, price_wei } = req.body;
+  const { color_id, buyer_address, tx_hash, price_wei } = req.body;
   
   try {
     // step1: verify color exists by color_code
-    const color = await pool.query("SELECT * FROM colors WHERE color_code=$1 AND is_deleted=0", [color_code]);
+    const color = await pool.query("SELECT * FROM colors WHERE color_id=$1 AND is_deleted=0", [color_id]);
     if (color.rows.length === 0) {
       return res.status(404).json({ success: false, error: "Color not found" });
     }

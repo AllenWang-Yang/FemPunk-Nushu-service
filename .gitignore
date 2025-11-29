@@ -12,6 +12,7 @@ build/
 dist/
 .env
 test/
+testSql.js
 
 # 忽略特定扩展名
 *.tmp
