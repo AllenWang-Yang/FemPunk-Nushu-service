@@ -113,6 +113,7 @@ router.post("/calculateSales", async (req, res) => {
 // get canvases that a contributor has contributed to
 router.get("/contributor/:address", async (req, res) => {
     const { address } = req.params;
+    const normalizedAddress = address.toLowerCase();
     try {
         const result = await pool.query(
             `SELECT DISTINCT c.canvas_id, c.day_timestamp, c.metadata_uri, c.total_raised_wei, 
@@ -122,7 +123,7 @@ router.get("/contributor/:address", async (req, res) => {
              INNER JOIN contributions co ON c.canvas_id = co.canvas_id
              WHERE co.contributor=$1 AND c.is_deleted=0 AND co.is_deleted=0
              ORDER BY c.day_timestamp DESC`,
-            [address]
+            [normalizedAddress]
         );
         res.json({ success: true, canvases: result.rows });
     } catch (err) {
