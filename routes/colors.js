@@ -36,14 +36,14 @@ router.post("/recordPurchase", async (req, res) => {
 
     // step3: update database with owner and transaction info
     await pool.query(
-      "UPDATE colors SET owner_address=$1, price_wei=$2, tx_hash=$3, updated_ts=extract(epoch from now())*1000 WHERE color_code=$4",
-      [buyer_address, price_wei, tx_hash, color_code]
+      "UPDATE colors SET owner_address=$1, price_wei=$2, tx_hash=$3, updated_ts=extract(epoch from now())*1000 WHERE color_id=$4",
+      [buyer_address, price_wei, tx_hash, color_id]
     );
 
     res.json({ 
       success: true,
-      color_id: color.rows[0].color_id,
-      color_code: color_code,
+      color_id: color_id,
+      color_code: color.rows[0].color_code,
       owner_address: buyer_address,
       tx_hash: tx_hash
     });
