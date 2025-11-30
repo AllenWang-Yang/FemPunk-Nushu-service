@@ -8,7 +8,7 @@ const contributionsContract = new ethers.Contract(process.env.CONTRIBUITION_CONT
 
 // record user contributions to a canvas
 router.post("/record", async (req, res) => {
-  const { canvas_id, contributor, _contributions } = req.body;
+  const { canvas_id, contributor, _contributions,tx_hash } = req.body;
   try {
     // step 1: check if record exists
     const result = await pool.query(
@@ -20,15 +20,15 @@ router.post("/record", async (req, res) => {
         // update existing record
         const newContributions = Number(result.rows[0].contributions) + _contributions;
         await pool.query(
-          "UPDATE contributions SET contributions=$3, updated_ts=extract(epoch from now())*1000 WHERE canvas_id=$1 AND contributor=$2",
-          [canvas_id, contributor, newContributions]
+          "UPDATE contributions SET contributions=$3,tx_hash=$4, updated_ts=extract(epoch from now())*1000 WHERE canvas_id=$1 AND contributor=$2",
+          [canvas_id, contributor,tx_hash, newContributions]
         );
         return res.json({ success: true });
     }else{
       // insert new record
       const result = await pool.query(
-        "INSERT INTO contributions(canvas_id, contributor, contributions, created_ts, updated_ts) VALUES ($1,$2,$3,extract(epoch from now())*1000,extract(epoch from now())*1000)",
-        [canvas_id, contributor, _contributions]
+        "INSERT INTO contributions(canvas_id, contributor, contributions,tx_hash, created_ts, updated_ts) VALUES ($1,$2,$3,extract(epoch from now())*1000,extract(epoch from now())*1000)",
+        [canvas_id, contributor, _contributions,tx_hash]
       );
       res.json({ success: true });
     }

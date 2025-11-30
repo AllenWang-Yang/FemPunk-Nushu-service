@@ -13,6 +13,7 @@ dist/
 .env
 test/
 testSql.js
+utils/authorizedWallet.js
 
 # 忽略特定扩展名
 *.tmp

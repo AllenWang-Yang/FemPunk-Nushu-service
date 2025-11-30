@@ -64,7 +64,7 @@ router.post("/stopSales", async (req, res) => {
       return res.status(404).json({ success: false, error: "Canvas not found" });
     }
 
-    // update canvas status to 0 (disabled)
+    // update canvas status to 0 (stop sales)
     await pool.query(
       "UPDATE canvases SET status=0, updated_ts=extract(epoch from now())*1000 WHERE canvas_id=$1",
       [canvas_id]

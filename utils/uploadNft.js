@@ -14,7 +14,7 @@ const s3 = new AWS.S3({
 });
 
 // upload Filebase and return CID
-async function uploadToFilebase(filePath, folder = '', contentType = 'nocolor/png') {
+async function uploadToFilebase(filePath, folder = '', contentType = 'hua/jpg') {
   const fileName = path.basename(filePath);
   const fileStream = fs.createReadStream(filePath);
   const key = `${folder}/${Date.now()}_${fileName}`;

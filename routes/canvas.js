@@ -16,7 +16,7 @@ const canvasContribution = new ethers.Contract(process.env.CONTRIBUITION_CONTRAC
 router.get("/",async (req,res) => {
   try {
     const result = await pool.query("SELECT * FROM canvases WHERE is_deleted=0");
-    res.json({ success: true, canvas: result.rows[0] || null });
+    res.json({ success: true, canvas: result.rows });
   } catch (err) {
     console.error(err);
     res.status(500).json({ success: false, error: err.message });
