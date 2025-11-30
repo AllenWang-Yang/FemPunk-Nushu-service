@@ -116,7 +116,7 @@ router.get("/contributor/:address", async (req, res) => {
     const normalizedAddress = address.toLowerCase();
     try {
         const result = await pool.query(
-            `SELECT DISTINCT c.canvas_id, c.day_timestamp, c.metadata_uri, c.total_raised_wei, 
+            `SELECT DISTINCT c.canvas_id, c.day_timestamp, c.metadata_uri, c.image_url, c.total_raised_wei, 
              c.finalized, co.contributions, co.created_ts,
              COALESCE(c.total_raised_wei, '0') as settleable_amount
              FROM canvases c
